@@ -44,6 +44,7 @@ SDL.NavigationView = Em.ContainerView.create(
       'codeEditor',
       'POIButton',
       'WPButton',
+      'AddWP',
       'map',
       'navigate',
       'animate'
@@ -147,11 +148,28 @@ SDL.NavigationView = Em.ContainerView.create(
     ),
     WPButton: SDL.Button.extend(
       {
+        isButtonDisabled: function() {
+          return SDL.NavigationModel.WayPointDetails.length == 0 ||
+                 SDL.NavigationController.isAnimateStarted;
+        }.property('SDL.NavigationModel.WayPointDetails',
+                   'SDL.NavigationController.isAnimateStarted'),
         classNameBindings: 'SDL.FuncSwitcher.rev::is-disabled',
+        disabledBinding: 'isButtonDisabled',
         elementId: 'WPButton',
         classNames: 'WPButton button',
         text: 'Waypoints',
         action: 'showWpList',
+        target: 'SDL.NavigationController'
+      }
+    ),
+    AddWP: SDL.Button.extend(
+      {
+        classNameBindings: 'SDL.FuncSwitcher.rev::is-disabled',
+        disabledBinding: 'SDL.NavigationController.isRouteSet',
+        elementId: 'AddWP',
+        classNames: 'AddWP button',
+        text: 'Add waypoint',
+        action: 'addWP',
         target: 'SDL.NavigationController'
       }
     ),
@@ -194,7 +212,6 @@ SDL.NavigationView = Em.ContainerView.create(
         action: 'startAnimation',
         target: 'SDL.NavigationController'
       }
-    ),
-
+    )
   }
 );
