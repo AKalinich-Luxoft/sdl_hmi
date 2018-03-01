@@ -271,6 +271,9 @@ SDL.EditVehicleDataController = Em.Object.create({
 
       var disabledCurrentPath = this.getMapPathKeyValue('./' + objKey);
       var disabledParams = this.get('disabledMapParams.' + disabledCurrentPath);
+      if (!disabledParams) {
+        disabledParams = [];
+      }
 
       var targetObject = obj[objKey];
       var isArray = targetObject instanceof Array;
