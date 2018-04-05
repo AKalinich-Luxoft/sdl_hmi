@@ -69,9 +69,7 @@ SDL.SDLModel = Em.Object.extend({
 
   applicationStatusBar: '',
 
-  applicationIconPath: {},
-
-  updateStatusBar: function() {
+   updateStatusBar: function() {
 
     if (this.data.limitedExist &&
       SDL.SDLController.getApplicationModel(this.data.stateLimited)) {
@@ -678,16 +676,7 @@ SDL.SDLModel = Em.Object.extend({
       this.data.unRegisteredApps.pop(params.appID);
     }
 
-    // if (SDL.SDLModel.applicationIconPath.unRegisteredApps.indexOf(params.appID) >= 0) {
-    //   setTimeout(function() {
-    //         SDL.PopUp.create().appendTo('body').popupActivate(
-    //           'Connection with ' + params.appName + '  is re-established.'
-    //         );
-    //       }, 1000
-    //     );
-    //   this.data.unRegisteredApps.pop(params.appID);
-    // }
-
+    
     //Magic number if predefined VR command USER_EXIT
     message = {
         'cmdID': -2,
@@ -893,9 +882,7 @@ SDL.SDLModel = Em.Object.extend({
 
       var img = new Image();
       img.onload = function() {
-        SDL.SDLModel.applicationIconPath[message.appID] = 
-            message.syncFileName.value;
-
+        
         // code to set the src on success
         SDL.SDLController.getApplicationModel(message.appID).
             set('appIcon', message.syncFileName.value);
