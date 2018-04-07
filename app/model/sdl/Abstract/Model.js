@@ -661,13 +661,6 @@ SDL.SDLModel = Em.Object.extend({
       return; // if application already registered and correctly initialized and BC.UpdateAppList came from SDL than nothing shoul happend
     }
 
-
-     if (app != null && params.icon != null) {
-     console.log('Resuming application icon for ' + params.appID);
-     this.setAppIconByAppId(params.appID, params.icon);
-      }
-
-
     if (params.isMediaApplication === true) {
       //Magic number 0 - Default media model
       applicationType = 0;
@@ -911,7 +904,7 @@ SDL.SDLModel = Em.Object.extend({
         
         // code to set the src on success
         SDL.SDLController.getApplicationModel(message.appID).
-            set('appIcon', message.syncFileName.value);
+            set('appIcon', img.src + '?' + new Date().getTime());
         FFW.UI.sendUIResult(SDL.SDLModel.data.resultCode.SUCCESS, id, method);
       };
       img.onerror = function(event) {

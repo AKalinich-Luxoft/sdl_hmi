@@ -123,11 +123,10 @@ SDL.RModel = SDL.SDLModel.extend({
       return; // if application already registered and correctly initialized and BC.UpdateAppList came from SDL than nothing shoul happend
     }
 
-    if (app != null && params.icon != null) {
+    if (params.appID != null && params.icon != null) {
       console.log('Resuming application icon for ' + params.appID);
       this.setAppIconByAppId(params.appID, params.icon);
-      }
-
+    }
 
     if (params.isMediaApplication === true) {
       //Magic number 0 - Default media model
@@ -147,7 +146,6 @@ SDL.RModel = SDL.SDLModel.extend({
         this.set('driverDeviceInfo', params.deviceInfo);
       }
     }
-
     
     this.registerApplication(params, applicationType);
 
@@ -182,14 +180,17 @@ SDL.RModel = SDL.SDLModel.extend({
     }
   },
 
-  setAppIconByAppId: function(appId, path) {
+  setAppIconByAppId: function(appID, path) {
     var img = new Image();
-    img.onload = function() {
-        console.log('Icon for ' + appId + ' was set to ' + path);
-        SDL.SDLController.getApplicationModel(appID).set('appIcon', path);
+    img.onload = function() {        
+        var model = SDL.SDLController.getApplicationModel(appID);
+        if (model != null) {
+          console.log('Icon for ' + appID + ' was set to ' + path);
+          model.set('appIcon', img.src + '?' + new Date().getTime());
+        }
     };
     img.onerror = function(event) {
-        console.log('Error: Icon for ' + appId + ' was not set properly');    
+        console.log('Error: Icon for ' + appID + ' was not set properly');    
         return false;
     };
 
