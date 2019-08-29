@@ -358,6 +358,7 @@ SDL.SettingsController = Em.Object.create(
         // );
 
         if(FLAGS.ExternalPolicies === true) {
+          console.log(`>>>LOLKEK ${SDL.SettingsController.policyUpdateFile} ; ${SDL.SDLModel.data.policyURLs[0].url} ; ${SDL.SDLModel.data.policyURLs[0].appID}`);
           FFW.ExternalPolicies.pack({
             type: 'PROPRIETARY',
             policyUpdateFile: SDL.SettingsController.policyUpdateFile,
@@ -387,24 +388,30 @@ SDL.SettingsController = Em.Object.create(
       if(length == SDL.SDLModel.data.policyUpdateRetry.try) {
         SDL.SDLModel.data.policyUpdateRetry.isRetry = false;
       }
+
+      sendOnSystemRequest();
+
       if (abort !== 'ABORT' && SDL.SDLModel.data.policyUpdateRetry.isRetry) {           
         
-        SDL.SDLModel.data.policyUpdateRetry.oldTimer = 
-          SDL.SDLModel.data.policyUpdateRetry.retry[SDL.SDLModel.data.policyUpdateRetry.try] * 1000;
+        // SDL.SDLModel.data.policyUpdateRetry.oldTimer = 
+        //   SDL.SDLModel.data.policyUpdateRetry.retry[SDL.SDLModel.data.policyUpdateRetry.try] * 1000;
      
        // SDL.SDLModel.data.policyUpdateRetry.timer = setTimeout(
          // function() {
-            sendOnSystemRequest();
+            // sendOnSystemRequest();
           //}, SDL.SDLModel.data.policyUpdateRetry.oldTimer
         //);
         SDL.SDLModel.data.policyUpdateRetry.try++;
       } else {
-        SDL.SDLModel.data.policyUpdateRetry.isRetry = false;
         clearTimeout(SDL.SDLModel.data.policyUpdateRetry.timer);
+        SDL.SettingsController.policyUpdateFile = "";
+        SDL.SDLModel.data.policyURLs = [];
         SDL.SDLModel.data.policyUpdateRetry = {
+          is_retry_postponed : false,
+          isRetry: false,
           timeout: null,
           retry: [],
-          try: null,
+          try: 0,
           timer: null,
           oldTimer: 0
         };

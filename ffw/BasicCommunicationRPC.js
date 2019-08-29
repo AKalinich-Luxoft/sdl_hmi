@@ -263,6 +263,7 @@ FFW.BasicCommunication = FFW.RPCObserver
               this.OnSystemRequest('PROPRIETARY');
           } else {
             if(SDL.SDLModelData.policyUpdateRetry.is_retry_postponed) {
+              console.log("LOLKEK, UPDATE RESUMED AFTER GETURLS");
               SDL.SDLModelData.policyUpdateRetry.is_retry_postponed = false;
               SDL.SettingsController.policyUpdateRetry();
             }
@@ -328,7 +329,6 @@ FFW.BasicCommunication = FFW.RPCObserver
               if (FLAGS.ExternalPolicies === true) {
                 SDL.SettingsController.policyUpdateRetry('ABORT');
               }
-              SDL.SettingsController.policyUpdateFile = null;
               break;
             }
             case 'UPDATING':
@@ -341,6 +341,7 @@ FFW.BasicCommunication = FFW.RPCObserver
               messageCode = 'StatusNeeded';
               if (FLAGS.ExternalPolicies === true ) {
                 if(SDL.SDLModel.data.policyURLs.length == 0) {
+                  console.log("LOLKEK, UPDATE POSTPONED");
                   SDL.SDLModelData.policyUpdateRetry.is_retry_postponed = true;
                 } else {
                   console.log("LOLKEK, UPDATE_NEEDED");
